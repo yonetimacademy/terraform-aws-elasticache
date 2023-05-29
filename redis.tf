@@ -1,0 +1,35 @@
+resource "random_id" "backup" {
+  byte_length = 8
+}
+resource "aws_elasticache_replication_group" "main" {
+  automatic_failover_enabled         = var.multi_az
+  multi_az_enabled                   = var.multi_az
+  num_cache_clusters                 = var.replica_count
+  auto_minor_version_upgrade         = var.auto_minor_version_upgrade
+  transit_encryption_enabled         = (var.encryption == true) ? true : false
+  auth_token                         = (var.encryption == true) ? random_password.auth[0].result : null
+  at_rest_encryption_enabled         = (var.encryption == true) ? true : false
+  kms_key_id                         = (var.encryption == true) ? aws_kms_key.main[0].arn : null
+  engine                             = "redis"
+  engine_version                     = var.engine_version
+  port                               = var.port
+  replication_group_id               = "${var.tenant}-${var.name}-redis-${var.environment}"
+  description                        = "Managed by Magicorn"
+  node_type                          = var.instance_type
+  parameter_group_name               = var.parameter_group
+  maintenance_window                 = var.maintenance_window
+  snapshot_window                    = var.snapshot_window
+  snapshot_retention_limit           = var.snapshot_retention_limit
+  final_snapshot_identifier          = "${var.tenant}-${var.name}-redis-final-${random_id.backup.hex}-${var.environment}"
+  subnet_group_name                  = aws_elasticache_subnet_group.main.name
+  security_group_ids                 = [aws_security_group.main.id]
+
+  tags = {
+    Name        = "${var.tenant}-${var.name}-redis-${var.environment}"
+    Tenant      = var.tenant
+    Project     = var.name
+    Environment = var.environment
+    Maintainer  = "Magicorn"
+    Terraform   = "yes"
+  }
+}
