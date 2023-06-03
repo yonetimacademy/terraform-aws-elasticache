@@ -4,12 +4,14 @@ variable "environment" {}
 variable "vpc_id" {}
 variable "cidr_block" {}
 variable "subnet_ids" {}
+variable "encryption" {}
+variable "kms_key_id" {}
+variable "cache_name" {}
 variable "multi_az" {}
 variable "replica_count" {}
 variable "engine_version" {}
 variable "instance_type" {}
 variable "port" {}
-variable "encryption" {}
 variable "auto_minor_version_upgrade" {}
 variable "parameter_group" {}
 variable "maintenance_window" {}

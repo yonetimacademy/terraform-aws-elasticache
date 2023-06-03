@@ -9,13 +9,13 @@ resource "random_password" "auth" {
 
 resource "aws_ssm_parameter" "main_redis_pass" {
   count       = (var.encryption == true) ? 1 : 0
-  name        = "/${var.tenant}/${var.name}/${var.environment}/redis/pass"
+  name        = "/${var.tenant}/${var.name}/${var.environment}/elasticache/${var.cache_name}/pass"
   description = "Managed by Magicorn"
   type        = "SecureString"
   value       = random_password.auth[0].result
 
   tags = {
-    Name        = "${var.tenant}-${var.name}-${var.environment}-redis-pass"
+    Name        = "${var.tenant}-${var.name}-${var.environment}-elasticache-${var.cache_name}-pass"
     Tenant      = var.tenant
     Project     = var.name
     Environment = var.environment
@@ -26,13 +26,13 @@ resource "aws_ssm_parameter" "main_redis_pass" {
 
 resource "aws_ssm_parameter" "main_redis_primary" {
   count       = (var.encryption == true) ? 1 : 0
-  name        = "/${var.tenant}/${var.name}/${var.environment}/redis/primary"
+  name        = "/${var.tenant}/${var.name}/${var.environment}/elasticache/${var.cache_name}/primary"
   description = "Managed by Magicorn"
   type        = "SecureString"
   value       = aws_elasticache_replication_group.main.primary_endpoint_address
 
   tags = {
-    Name        = "${var.tenant}-${var.name}-${var.environment}-redis-primary"
+    Name        = "${var.tenant}-${var.name}-${var.environment}-elasticache-${var.cache_name}-primary"
     Tenant      = var.tenant
     Project     = var.name
     Environment = var.environment
@@ -43,13 +43,13 @@ resource "aws_ssm_parameter" "main_redis_primary" {
 
 resource "aws_ssm_parameter" "main_redis_reader" {
   count       = (var.encryption == true) ? 1 : 0
-  name        = "/${var.tenant}/${var.name}/${var.environment}/redis/reader"
+  name        = "/${var.tenant}/${var.name}/${var.environment}/elasticache/${var.cache_name}/reader"
   description = "Managed by Magicorn"
   type        = "SecureString"
   value       = aws_elasticache_replication_group.main.reader_endpoint_address
 
   tags = {
-    Name        = "${var.tenant}-${var.name}-${var.environment}-redis-reader"
+    Name        = "${var.tenant}-${var.name}-${var.environment}-elasticache-${var.cache_name}-reader"
     Tenant      = var.tenant
     Project     = var.name
     Environment = var.environment
@@ -60,13 +60,13 @@ resource "aws_ssm_parameter" "main_redis_reader" {
 
 resource "aws_ssm_parameter" "main_redis_port" {
   count       = (var.encryption == true) ? 1 : 0
-  name        = "/${var.tenant}/${var.name}/${var.environment}/redis/port"
+  name        = "/${var.tenant}/${var.name}/${var.environment}/elasticache/${var.cache_name}/port"
   description = "Managed by Magicorn"
   type        = "SecureString"
   value       = var.port
 
   tags = {
-    Name        = "${var.tenant}-${var.name}-${var.environment}-redis-port"
+    Name        = "${var.tenant}-${var.name}-${var.environment}-elasticache-${var.cache_name}-port"
     Tenant      = var.tenant
     Project     = var.name
     Environment = var.environment

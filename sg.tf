@@ -1,5 +1,5 @@
 resource "aws_security_group" "main" {
-  name        = "${var.tenant}-${var.name}-elasticache-sg-${var.environment}"
+  name        = "${var.tenant}-${var.name}-elasticache-${var.cache_name}-sg-${var.environment}"
   description = "Managed by Magicorn"
   vpc_id      = var.vpc_id
 
@@ -22,7 +22,7 @@ resource "aws_security_group" "main" {
   }
 
   tags = {
-    Name        = "${var.tenant}-${var.name}-elasticache-sg-${var.environment}"
+    Name        = "${var.tenant}-${var.name}-elasticache-${var.cache_name}-sg-${var.environment}"
     Tenant      = var.tenant
     Project     = var.name
     Environment = var.environment
