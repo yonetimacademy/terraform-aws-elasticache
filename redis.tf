@@ -1,6 +1,3 @@
-resource "random_id" "backup" {
-  byte_length = 8
-}
 resource "aws_elasticache_replication_group" "main" {
   automatic_failover_enabled         = var.multi_az
   multi_az_enabled                   = var.multi_az
