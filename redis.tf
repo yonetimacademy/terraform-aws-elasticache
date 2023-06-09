@@ -11,7 +11,7 @@ resource "aws_elasticache_replication_group" "main" {
   engine_version                     = var.engine_version
   port                               = var.port
   replication_group_id               = "${var.tenant}-${var.name}-${var.cache_name}-${var.environment}"
-  description                        = "Managed by Magicorn"
+  description                        = "Managed by yonetimacademy"
   node_type                          = var.instance_type
   parameter_group_name               = var.parameter_group
   maintenance_window                 = var.maintenance_window
@@ -26,7 +26,7 @@ resource "aws_elasticache_replication_group" "main" {
     Tenant      = var.tenant
     Project     = var.name
     Environment = var.environment
-    Maintainer  = "Magicorn"
+    Maintainer  = "yonetimacademy"
     Terraform   = "yes"
   }
 }
